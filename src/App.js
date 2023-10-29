@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import Header from "./components/header";
+import Form from "./components/form";
+import { useState } from "react";
+import Item from "./components/items";
+import ActualData from "./components/Actualdata";
 
-function App() {
+export default function App() {
+  const [data, setData] = useState([]);
+
+  function addData(item) {
+    setData((items) => [...items, item]);
+  }
+
+  function handleDelete(id) {
+    setData((items) => items.filter((item) => item.id !== id));
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <Form onAddItem={addData} />
+      <Item />
+      {data.map((data) => (
+        <ActualData data={data} key={data.id} onHandleDelete={handleDelete} />
+      ))}
     </div>
   );
 }
-
-export default App;
